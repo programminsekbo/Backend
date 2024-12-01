@@ -1,5 +1,7 @@
-export const PORT=5050
-export const DATABASE='mongodb+srv://mrrabbil:mernx123@cluster0.rtpbcy6.mongodb.net/Mern6TaskAPI?retryWrites=true&w=majority'
+export const PORT=5060
+export const DATABASE='mongodb://localhost:27017/exzamwik'
+
+//'mongodb+srv://mrrabbil:mernx123@cluster0.rtpbcy6.mongodb.net/Mern6TaskAPI?retryWrites=true&w=majority'
 export const JWT_KEY='ABC12341241234'
 export const JWT_EXPIRE_TIME=30*24*60*60
 
