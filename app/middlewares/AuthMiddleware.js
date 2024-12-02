@@ -1,6 +1,6 @@
 import {TokenDecode} from "../utility/tokenUtility.js";
 export default (req, res, next) => {
-    let token=req.headers['token']
+    let token=req.cookies['token']
     let decoded = TokenDecode(token)
     if(decoded===null){
         res.status(401).json({status:"fail",message:"Unauthorized"})

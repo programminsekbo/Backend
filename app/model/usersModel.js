@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const DataSchema = mongoose.Schema({
+
     fullName: {type: String, required: true},
     gender: {type: String, required: true},
     email: {

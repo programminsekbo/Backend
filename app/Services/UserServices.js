@@ -42,7 +42,7 @@ export const LoginService = async (req) => {
   
         await UserModel.updateOne(
           { email: email },
-          { $set: { otp: "0" } }
+          { $set: { otp: "0" }}
         ).select("_id");
   
   
@@ -57,20 +57,18 @@ export const LoginService = async (req) => {
   
 
 
+
+
+
   export const CreateProfileService = async (req) => {
     try {
-     
       let reqBody = req.body;
-      reqBody.userID = user_id;
-      await UserModel.updateOne(
-        { userID: user_id },
-        { $set: reqBody },
-        { upsert: true }
-      );
-      return { status: "success", message: "profile save Successfuily" };
-    } catch (e) {
-      return { status: "fail", message: "SameThing went wrong" };
+      let data = await UserModel.create(reqBody);
+      return { status: "Success", message: "User registered successfully", data: data };
+  } catch (error) {
+      return { status: "Fail", message: error.toString()};
     }
+
   };
 
 
