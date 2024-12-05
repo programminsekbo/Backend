@@ -8,22 +8,36 @@ import { TokenEncode } from './../utility/tokenUtility.js';
 
 
 export const LoginService = async (req) => {
-    try {
-      let { email } = req.body;
-      let code = Math.floor(100000 + Math.random() * 900000);
-      let EmailText = `Your code is= ${code}`;
-      let EmailSubject = `Email Verification `;
-      // await SendEmail(EmailTO, EmailText, EmailSubject)
-      await UserModel.updateOne(
-        { email: email },
-        { otp: code },
-        { upsert: true }
-      );
-  
-      return { status: "success", message: "6 digit code send successfully" };
-    } catch (error) {
-      return { status: "fail", data: error.toString() };
+  try {
+    let {email, password} = req.body;
+    password = (password);
+    let code = Math.floor(100000 + Math.random() * 900000);
+    let expiry = Date.now() + 10 * 60 * 1000; // OTP expires in 10 minutes
+
+/*
+     let EmailText =` Your Verification Code is ${code}`;
+     let EmailSubject = 'Email Verification';
+   try {
+        await SendEmail(EmailSubject, EmailText);
+   } catch (emailError) {
+         return { status: 'Fail', message: 'Failed to send email. Please try again later.' };
+     }
+
+     */
+
+    let data = await UserModel.findOne({ email: email, password: password}).select('_id');
+
+    if (data) {
+        await UserModel.updateOne({ _id: data._id },{ $set: { otp: code, otpExpiry: expiry}});
+        return {status : 'success', message : 'Your 6 Digit Code Has Been Send Successfully'};
+    } else {
+        return { status: 'Fail', message: 'Invalid information'};
     }
+
+} catch (e) {
+    return {status : 'Fail', data : e.toString()};
+   }
+
   };
 
 
